@@ -61,3 +61,31 @@ void b_write(Adress adr, byte b) {
 byte b_read(Adress adr) {
     return mem[adr];
 }
+
+void load_file() {
+
+    FILE *test = NULL;
+    unsigned int  ar;
+    unsigned int br;
+    unsigned int  N;
+    test = fopen("C/Users/kjenk/projects/pdp-11/pdp-11/1_sum.pdp.o", "r");
+
+    if (test == NULL) {
+
+        perror("1_sum.pdp.o");
+        exit(1);
+    }
+
+
+    while (fscanf(test, "%x%x", &ar, &N) == 2) {
+
+        for (int i = 0; i < N; i++) {
+
+            fscanf(test, "%x", &br);
+            b_write(ar + i, br);
+        }
+    }
+
+
+    fclose(test);
+}
