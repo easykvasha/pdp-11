@@ -30,7 +30,7 @@ void test_mem() {
     printf("br/ww \t %04hx=%02hhx%02hhx\n", wrest, b1, b2);
 
     //пишем слово читаем 2 байт
-    Adress z = 4;
+    Adress z = 8;
     byte b3 = 0x0b;
     byte b4 = 0x0a;
     word w = 0x0b0a;
