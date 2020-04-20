@@ -62,30 +62,27 @@ byte b_read(Adress adr) {
     return mem[adr];
 }
 
-void load_file() {
+void load_file(){
+    Adress adr;
+    unsigned short int n;
+    byte k = 0x00;
+    int i;
+    int j = 2;
+    while(1) {
 
-    FILE *test = NULL;
-    unsigned int  ar;
-    unsigned int br;
-    unsigned int  N;
-    test = fopen("C/Users/kjenk/projects/pdp-11/pdp-11/1_sum.pdp.o", "r");
-
-    if (test == NULL) {
-
-        perror("1_sum.pdp.o");
-        exit(1);
-    }
-
-
-    while (fscanf(test, "%x%x", &ar, &N) == 2) {
-
-        for (int i = 0; i < N; i++) {
-
-            fscanf(test, "%x", &br);
-            b_write(ar + i, br);
+        j = scanf("%04hx%04hx", &adr, &n);
+        if(j != 2){
+            break;
+        }
+        for (i = 0; i < n; i++) {
+            scanf("%02hhx", &k);
+            b_write(adr + i, k);
         }
     }
+}
 
-
-    fclose(test);
+void mem_dump(Adress adr, int n){
+    for (int i = 0; i < n; i += 2) {
+        printf("%06o : %06ho\n",adr + i, w_read(adr + i));
+    }
 }
