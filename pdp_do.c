@@ -14,7 +14,14 @@ struct SSDD ss, dd;
 
 void do_halt() {
 	
-	trace (type,"\n\nHALTED!\n");
+	trace (type,"\n\nHALTED!\n\n");
+    int i;
+    for (i = 0; i < 8; i += 2)
+        trace_reg(type_reg,"R%d = %06o   ", i, reg[i]);
+    trace_reg(type_reg, "\n");
+    for (i = 1; i < 8; i += 2)
+        trace_reg (type_reg, "R%d = %06o    ", i, reg[i]);
+    trace_reg (type_reg, "\n");
 	exit(0);
 }
 
@@ -67,5 +74,7 @@ void do_bpl() {
 	if (N == 0)
 		do_br();
 }
+
+
 
 
