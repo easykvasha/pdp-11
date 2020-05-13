@@ -5,7 +5,7 @@
 #include "pdp.h"
 
 
-int type=0;
+int type;
 
 void load_file(const char * fl) {
     FILE * test = fopen(fl, "r");
