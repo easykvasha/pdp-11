@@ -5,7 +5,7 @@
 #include "pdp.h"
 
 
-int type;
+int type, type_reg;
 
 void load_file(const char * fl) {
     FILE * test = fopen(fl, "r");
@@ -35,8 +35,9 @@ void mem_dump(Adress adr, word n){
 }
 
 void settings(char * opt) {
-    printf("settings: %s [-t] FILE\n", opt);
+    printf("settings: %s [-t] [-st] FILE\n", opt);
     printf("-t\t - turn on tracing\n");
+    printf("-st\t - turn on super tracing\n");
     printf("FILE\t - record file\n");
 }
 
@@ -52,6 +53,31 @@ void trace(int type, const char * str, ...) {
         va_end(ap);
     }
 }
+
+void trace_reg (int type_reg, const char * str, ...) {
+    if (type_reg == 0)
+        return;
+    if (type_reg == 1) {
+        va_list ap;
+        va_start(ap, str);
+        vprintf(str, ap);
+        va_end(ap);
+    }
+}
+
+void print_reg()
+{
+    trace_reg(type, "\n");
+    int i;
+    for (i = 0; i < 8; i += 2)
+        trace_reg(type_reg,"R%d = %06o   ", i, reg[i]);
+    trace_reg(type_reg, "\n");
+    for (i = 1; i < 8; i += 2)
+        trace_reg (type_reg, "R%d = %06o    ", i, reg[i]);
+    trace_reg (type_reg, "\n\n");
+}
+
+
 
 
 
