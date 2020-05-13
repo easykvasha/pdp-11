@@ -13,8 +13,10 @@ int main(int arg, char * argm[]) {
     for (int i = 1; i < arg-1; i++) {
         if (0 == strcmp(argm[i], "-t"))
           type = 1;
-
-        else {
+        else if (0 == strcmp(argm[i], "-st")) {
+            type= 1;
+            type_reg = 1;
+        } else {
             printf("Option can't be done\n");
             settings(argm[0]);
             exit(1);
@@ -22,4 +24,6 @@ int main(int arg, char * argm[]) {
     }
     load_file(argm[arg-1]);
     run();
+
+    return 0;
 }
