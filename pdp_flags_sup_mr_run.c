@@ -180,6 +180,6 @@ void run() {
             }
         }
         trace (type, "\n");
+        print_reg();
     }
 }
-
