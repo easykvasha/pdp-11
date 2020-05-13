@@ -44,6 +44,8 @@ void trace(int type, const char * str, ...);   // трассировка
 void settings(char * opt);
 void Flags(word w);
 void run();
+void print_reg();
+void trace_reg(int type_reg, const char * str, ...);
 
 void do_halt();    // остановка
 void do_mov();     //
@@ -60,7 +62,7 @@ void do_bpl();     //
 
 
 
-extern int type;
+extern int type, type_reg;
 extern int N, Z, C;
 extern int bt, x, xo;
 extern word wd;
