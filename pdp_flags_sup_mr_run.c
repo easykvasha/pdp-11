@@ -11,6 +11,7 @@ int N, Z, C, bt, xo;
 struct SSDD  ss , dd, sup;
 struct SSDD get_mr(word w, int z);
 
+
 struct Command cmd[] = {
         {0177777, 0000000, "halt", do_halt, n_pr},
         {0170000, 0010000, "mov",  do_mov, y_dd | y_ss},
@@ -20,7 +21,9 @@ struct Command cmd[] = {
         {0017700, 0005000, "clr",  do_clr, y_dd},
         {0177400, 0000400, "br",   do_br, y_xo},
         {0177400, 0001400, "beq",  do_beq, y_xo},
-        {0177400, 0100000, "bpl",  do_bpl, y_xo}
+        {0177400, 0100000, "bpl",  do_bpl, y_xo},
+        {0177700, 0105700, "tstb", do_tstb, y_dd},
+        {0177700, 0005700, "tst",  do_tst,  y_dd}
 };
 
 
@@ -75,24 +78,27 @@ struct SSDD get_mr(word w, int z) {
                     res.adr = reg[rgtr];
                     res.val = z ? b_read(res.adr) : w_read(res.adr);
 
-                    if (rgtr == 7)
-                        trace (type, "#%o ", res.val);
-                    else
-                        trace (type, "(R%o)+ ", rgtr);
+                    if (rgtr == 7) {
+                        trace(type, "#%o ", res.val);
+                    }else {
+                        trace(type, "(R%o)+ ", rgtr);
+                    }
 
                     if (z == 0 || rgtr == 6 || rgtr == 7)
                         reg[rgtr] += 2;
-                    else
+
+                    else {
                         reg[rgtr]++;
+                    }
                     break;
 
                     case 3:
                         res.adr = reg[rgtr];
-                        res.adr = w_read(res.adr);
+                        res.adr = w_read(reg[rgtr]);
 
                         if (z == 0 || rgtr == 6 || rgtr == 7){
                             res.val = w_read(res.adr);
-                        trace (type, "@#%o", res.val);
+                        trace (type, "@#%o ", res.val);
                         reg[rgtr] += 2;
             }else
                 {
@@ -124,13 +130,14 @@ struct SSDD get_mr(word w, int z) {
                                 break;
 
                                 case 6:
-                                    wd= w_read(reg[7]);
-                                    reg[7] += 2;
-                                    res.adr = (reg[rgtr] + wd) & 0xFFFF;
+                                    wd= w_read(pc);
+                                    pc += 2;
+                                    res.adr = (reg[rgtr] + wd)& 0xFFFF;
                                     res.val = w_read(res.adr);
 
-                                    if (rgtr == 7)
-                                        trace (type, "%o ", res.adr);
+                                    if (rgtr == 7) {
+                                        trace(type, "%o ", res.adr);
+                                    }
                                     else
                                         trace (type, "%o(R%d) ", wd, rgtr);
                                     break;
@@ -153,7 +160,7 @@ void run() {
     while (1) {
         word w = w_read(pc);
         trace (type, "%06o :  ", pc);
-        pc = pc + 2;
+        pc += 2;
         int i;
         int size = sizeof(cmd)/sizeof(struct Command);
         struct Command cmmd;
@@ -179,7 +186,7 @@ void run() {
                 cmmd.do_func();
             }
         }
-        trace (type, "\n");
+        //trace (type, "\n");
         print_reg();
     }
 }
