@@ -2,14 +2,18 @@ typedef unsigned char byte; //8 bit
 typedef unsigned short int word; //16 bit
 typedef word Adress; //16 bit
 
+typedef unsigned char byte; //8 bit
+typedef unsigned short int word; //16 bit
+typedef word Adress; //16 bit
+
 #define MEMSIZE (64*1024)
 #define pc reg[7]
 
 #define n_pr 0
 #define y_xo 1                  //xo= XX Offset (8 bits, -128 to +127)
-#define y_ss 2
-#define y_dd 3
-#define y_sup 4           // sup=NN Number (6 bits)
+#define y_ss (1<<1)
+#define y_dd (1<<2)
+#define y_sup (1<<3)           // sup=NN Number (6 bits)
 
 
 #define odata 0177566			// регистр данных дисплея
@@ -27,7 +31,6 @@ struct Command {
 struct SSDD {
     word val;		//значение аргумента
     word adr;       //адрес аргумента
-    //word res;
 };
 
 
@@ -56,6 +59,8 @@ void do_clr();     //
 void do_br();      //
 void do_beq();     //
 void do_bpl();     //
+void do_tst();
+void do_tstb();
 
 
 
@@ -64,7 +69,7 @@ void do_bpl();     //
 
 extern int type, type_reg;
 extern int N, Z, C;
-extern int bt, x, xo;
+extern int bt, xo;
 extern word wd;
 extern byte mem[MEMSIZE];
 extern word reg[8];
