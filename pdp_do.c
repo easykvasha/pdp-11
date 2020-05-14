@@ -7,7 +7,7 @@
 
 
 word reg[8];
-int x;
+int xo;
 struct SSDD ss, dd;
 
 
@@ -62,19 +62,31 @@ void do_clr() {
 }
 
 void do_br() {
-	pc = pc + x*2;
+	pc = pc + xo*2 ;
+    printf("%o ", pc);
 }
 
 void do_beq() {
 	if (Z == 1)
 		do_br();
+	else
+        printf("%o ", (pc + xo*2));
 }
 
 void do_bpl() {
 	if (N == 0)
 		do_br();
+	else
+        printf("%o ", (pc - 6));
+}
+void do_tstb() {
+    Flags(dd.val);
 }
 
 
+
+void do_tst() {
+    Flags(dd.val);
+}
 
 
