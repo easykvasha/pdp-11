@@ -72,4 +72,4 @@ void test_mem() {
     word b4res = b_read(z+1);
     printf("ww/br \t %04hx=%02hhx%02hhx\n", w, b4res, b3res);
 }
-
+ 
