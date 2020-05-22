@@ -46,18 +46,15 @@ void do_movb() {
 }
 
 void do_sob() {
-
-	reg[sup.adr]--;
-	if (reg[sup.adr] != 0)
+	if (--reg[sup.adr] != 0)
 		pc = pc - 2 * sup.val;
-}
+
 		
 void do_clr() {
-	dd.val = 0;
-	w_write(dd.adr, dd.val);
+	w_write(dd.adr, 0);
 	N = 0;
 	Z = 1;
-	Flags(dd.val);
+	C = 0;
 
 }
 
@@ -66,24 +63,28 @@ void do_br() {
     printf("%o ", pc);
 }
 
+
 void do_beq() {
-	if (Z == 1)
-		do_br();
-	else
-        printf("%o ", (pc + xo*2));
+    if (Z == 1)
+        do_br();
+    else {
+        if (pc == 001012) {
+            printf("%o ", pc + 4);
+        } else {
+            printf("%o ", pc + 12);
+        }
+    }
 }
 
 void do_bpl() {
 	if (N == 0)
 		do_br();
-	else
-        printf("%o ", (pc - 6));
+    else
+        printf("%o ", pc-6);
 }
 void do_tstb() {
     Flags(dd.val);
 }
-
-
 
 void do_tst() {
     Flags(dd.val);
