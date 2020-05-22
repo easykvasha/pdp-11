@@ -41,7 +41,7 @@ void do_movb() {
 
 	b_write(dd.adr, (byte)ss.val);
 	if (dd.adr == odata)
-		fprintf(stderr, "%c %d\n", ss.val, ss.val);
+		fprintf(stderr, "%c \n", ss.val);
     Flags(ss.val);
 }
 
