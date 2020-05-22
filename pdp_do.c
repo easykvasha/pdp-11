@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "pdp.h"
 #include <string.h>
@@ -40,14 +41,16 @@ void do_add() {
 void do_movb() {
 
 	b_write(dd.adr, (byte)ss.val);
-	if (dd.adr == odata)
-		fprintf(stderr, "%c \n", ss.val);
+    if (type == 0 || type_reg != 0) {
+        if (dd.adr == odata)
+            fprintf(stderr, "%c ", ss.val);
+    }
     Flags(ss.val);
 }
 
 void do_sob() {
-	if (--reg[sup.adr] != 0)
-		pc = pc - 2 * sup.val;
+    if (--reg[sup.adr] != 0)
+        pc = pc - 2 * sup.val;
 }
 
 		
@@ -61,6 +64,7 @@ void do_clr() {
 
 void do_br() {
 	pc = pc + xo*2 ;
+	if (type != 0 || type_reg != 0)
     printf("%o ", pc);
 }
 
@@ -69,19 +73,23 @@ void do_beq() {
     if (Z == 1)
         do_br();
     else {
-        if (pc == 001012) {
-            printf("%o ", pc + 4);
-        } else {
-            printf("%o ", pc + 12);
+        if (type != 0 || type_reg != 0) {
+            if (pc == 001012) {
+                printf("%o ", pc + 4);
+            } else {
+                printf("%o ", pc + 12);
+            }
         }
     }
 }
 
 void do_bpl() {
-	if (N == 0)
-		do_br();
-    else
-        printf("%o ", pc-6);
+    if (N == 0)
+        do_br();
+    else {
+        if (type != 0 || type_reg != 0)
+            printf("%o ", pc - 6);
+    }
 }
 void do_tstb() {
     Flags(dd.val);
