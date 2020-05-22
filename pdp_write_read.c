@@ -12,10 +12,10 @@ byte mem[MEMSIZE];
 
 
 void w_write(Adress adr, word w ) {
-    if (adr == odata) {
+    /*if (adr == odata) {
         fprintf(stderr, "%c", w);
         return;
-    }
+    }*/
     else if (adr < 15)
         reg[adr] = w;
     else
@@ -29,8 +29,8 @@ word w_read(Adress adr) {
 }
 
 void b_write(Adress adr, byte b) {
-    if (adr == odata)
-        fprintf(stderr, "%c", b);
+    /*if (adr == odata)
+        fprintf(stderr, "%c", b);*/
     if (adr < 8)
         reg[adr] = ((b >> 7) ? (b | 0xFF00) : b);
     else
