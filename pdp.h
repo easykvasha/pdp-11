@@ -1,5 +1,4 @@
 
-
 typedef unsigned char byte; //8 bit
 typedef unsigned short int word; //16 bit
 typedef word Adress; //16 bit
@@ -35,7 +34,7 @@ struct SSDD {
 
 void b_write(Adress adr, byte b);   //
 byte b_read(Adress adr);            // чтение и запись
-void w_write(Adress adr, word b);   //
+void w_write(Adress adr, word w);   //
 word w_read(Adress adr);            //
 void test_mem();
 
