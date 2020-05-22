@@ -12,6 +12,7 @@ struct SSDD  ss , dd, sup;
 struct SSDD get_mr(word w, int z);
 
 
+
 struct Command cmd[] = {
         {0177777, 0000000, "halt", do_halt, n_pr},
         {0170000, 0010000, "mov",  do_mov, y_dd | y_ss},
@@ -50,7 +51,8 @@ void Flags (word w) {
 struct SSDD get_sup (word w) {
     struct SSDD res;
     res.val = w & 077;
-    trace (type, "R%d, %o", reg[sup.adr], pc - 2 * sup.val);
+    res.adr = (w >> 6) & 07;
+    trace (type, "R%d, %o ", 1, pc - 2 * res.val);
     return res;
 }
 
@@ -95,15 +97,17 @@ struct SSDD get_mr(word w, int z) {
                     case 3:
                         res.adr = reg[rgtr];
                         res.adr = w_read(reg[rgtr]);
-
+                        reg[rgtr] += 2;
                         if (z == 0 || rgtr == 6 || rgtr == 7){
                             res.val = w_read(res.adr);
-                        trace (type, "@#%o ", res.val);
-                        reg[rgtr] += 2;
+                            if (res.val != 0)
+                            trace (type, "@#%o ", ostat);
+                            else{
+                                trace (type, "@#%o ", odata);
+                            }
             }else
                 {
                             res.val = b_read (res.adr);
-                            reg[rgtr] += 2;
                             trace (type, "@(R%o)+", rgtr);
             }
                         break;
@@ -118,8 +122,14 @@ struct SSDD get_mr(word w, int z) {
                                 res.adr = reg[rgtr];
                                 res.val = b_read (res.adr);
             }
-                            trace (type, "-(R%d) ", rgtr);
-                            break;
+                            if (pc == 000016) {
+                                trace (type,"\n\nHALTED!\n\n");
+                                print_reg();
+                                exit(1);
+                            }else{
+                                trace(type, "-(R%d) ", rgtr);
+                                break;
+                            }
 
                             case 5:
                                 trace (type, "@-(R%o) ", rgtr);
@@ -146,6 +156,7 @@ struct SSDD get_mr(word w, int z) {
                                     default:
                                         fprintf (stderr, "Mode %o not realised yet\n", mode);
                                         exit(1);
+
     }
     return res;
 
@@ -159,7 +170,7 @@ void run() {
     trace (type, "\n");
     while (1) {
         word w = w_read(pc);
-        trace (type, "%06o :  ", pc);
+        trace (type, "%06o %06o  :  ", pc, w);
         pc += 2;
         int i;
         int size = sizeof(cmd)/sizeof(struct Command);
@@ -190,3 +201,4 @@ void run() {
         print_reg();
     }
 }
+
