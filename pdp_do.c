@@ -48,6 +48,7 @@ void do_movb() {
 void do_sob() {
 	if (--reg[sup.adr] != 0)
 		pc = pc - 2 * sup.val;
+}
 
 		
 void do_clr() {
