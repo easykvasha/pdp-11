@@ -23,7 +23,7 @@ void load_file(const char * fl) {
             b_write(a+i, bit);
         }
     }
-    mem_dump(01000, wrd);
+   mem_dump(01000, wrd);
 
     fclose(test);
 }
