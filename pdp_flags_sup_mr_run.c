@@ -34,18 +34,9 @@ void Flags (word w) {
     Z = (w == 0);
     C = (bt ? (w >> 16) : (w >> 8)) & 1;
 
-    if (N == 1)
-        trace (type, "N");
-    if (N != 1)
-        trace (type, "-");
-    if (Z == 1)
-        trace (type, "Z");
-    if (Z != 1)
-        trace (type, "-");
-    if (C == 1)
-        trace (type, "C");
-    if (C != 1)
-        trace (type, "-");
+    trace(type, N==1 ? "N": "-");
+    trace(type, Z==1 ? "Z": "-");
+    trace(type, C==1 ? "C": "-");
 }
 
 struct SSDD get_sup (word w) {
@@ -201,4 +192,3 @@ void run() {
         print_reg();
     }
 }
-
